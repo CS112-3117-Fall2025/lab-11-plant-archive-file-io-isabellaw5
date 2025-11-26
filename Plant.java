@@ -1,3 +1,9 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.Scanner;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 public class Plant {
 	// CONSTANTS
 	public static final String DEFAULT_NAME = "Mario Mushroom";
@@ -34,7 +40,34 @@ public class Plant {
 	}
 
 	//TODO: Step 1 = CSV string constructor
+	public Plant(String fileInput){
+		String name,uses;
+		double temp = 0;
 
+		if (fileInput == null){
+			throw new IllegalArgumentException("Invalid string data to CSV constructor passed (null)");
+		}
+		String[] plants = fileInput.split(","); // Splits by comma
+
+		if (plants.length != 3){
+			throw new IllegalArgumentException("Invalid string format provided to CSV constructor.");
+		}
+		if (plants[0] == null || plants[2] == null){
+			throw new IllegalArgumentException("Invalid string format provided to CSV constructor. String parameters are null.");
+		}
+		name = plants[0];
+		uses = plants[2];
+		try {
+			temp = Double.parseDouble(plants[1]);
+		} catch (NumberFormatException nfe) {
+			throw new IllegalArgumentException("Error converting temperature string to double.");
+		}
+		//if data is valid, call full constructor method
+		if(!this.setAll(name, temp, uses)) {
+			throw new IllegalArgumentException("Failed to create object.");
+		}
+
+	}
 
 
 
